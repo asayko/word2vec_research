@@ -30,11 +30,14 @@ def calc_dict(fin_name, fout_name, thrds = 1, count_threshhold = 5):
 	for p in ps:
 		p.join()
 
+	total_words = 0
 	with codecs.open(fout_name, "w") as fout:
 		for word, count in sorted(counter.items(), key=lambda x: x[1], reverse=True):
-			if count < count_threshhold:
-				break
-			print >> fout, "%s\t%d" % (word.encode("utf-8"), count)
+			total_words += count
+			if count >= count_threshhold:
+				print >> fout, "%s\t%d" % (word.encode("utf-8"), count)
+
+	return total_words
 
 
 if __name__ == '__main__':
